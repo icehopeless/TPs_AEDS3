@@ -13,8 +13,8 @@ public class StateByKeyWordQuestions extends StateView{
         super(true);
         this.isLoaded = isL;
         this.indexPage = indexPage;
-        if(!singlePwd.ultimaPagina("Pergutnas por palavras chaves")){
-            singlePwd.push("Pergutnas por palavras chaves");
+        if(!singlePwd.ultimaPagina("Perguntas por palavras-chave")){
+            singlePwd.push("Perguntas por palavras-chave");
         }
 
         System.out.println(singlePwd.getPwd());
@@ -43,15 +43,18 @@ public class StateByKeyWordQuestions extends StateView{
                 System.out.println("|");
             }
 
-            if(questions.size() > 0){
-                System.out.println("|  Página " + (indexPage + 1) + " de " + questions.size());
+            if(questions.isEmpty()){
+                System.out.println("|  Nenhuma pergunta encontrada para esses termos.");
+            }else{
+                // indexPage é a posição do primeiro item da página (0, 10, 20...)
+                System.out.println("|  Página " + (indexPage / 10 + 1) + " de " + ((questions.size() + 9) / 10));
             }
 
             System.out.println("|");
             System.out.println("|  [A] Página anterior    [B] Próxima página    [R] Retornar");
             System.out.println("|  Ou digite o número da pergunta para abri-la");
             System.out.println("|");
-            System.out.println("|  Para realizar outra pergunta precione qualquer outra tecla");
+            System.out.println("|  Para realizar outra busca pressione qualquer outra tecla");
             System.out.println(Layouts.DesignBottom.getLayout());
             System.out.print(Layouts.LINECOMAND.getLayout());
             
@@ -62,10 +65,13 @@ public class StateByKeyWordQuestions extends StateView{
                 context.changeState(new StateByKeyWordQuestions(true,indexPage - 10));
             }else if(opcao.equals("B") && indexPage + 10 < questions.size()){
                 context.changeState(new StateByKeyWordQuestions(true,indexPage + 10));
+            }else if(opcao.equals("A") || opcao.equals("B")){
+                // já está na primeira ou na última página: mantém o resultado
+                context.changeState(new StateByKeyWordQuestions(true,indexPage));
             }else if(opcao.equals("R")){
                 singlePwd.pop();
                 context.changeState(new StateSearchQuestions());
-            }else if(numero >= 1 && numero <= indexPage + 9){
+            }else if(numero > indexPage && numero <= indexPage + 10 && numero <= questions.size()){
                 // ao voltar da pergunta reabre a página da listagem
                 context.changeState(new StateQuestion(questions.get(numero - 1).getId(), () -> new StateByKeyWordQuestions(true,indexPage)));
             }else{

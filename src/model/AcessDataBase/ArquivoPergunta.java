@@ -4,7 +4,10 @@ import model.Pergunta;
 
 import java.text.Normalizer;
 import  java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 
 import Formatter.FormatterString;
@@ -13,6 +16,19 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
     ArvoreBMais<ParIdId> relUsuarioPergunta;
     ArvoreBMais<ParDataId> indiceData;
     ListaInvertida invertedList;
+
+    private static final HashSet<String> STOP_WORDS = new HashSet<>(Arrays.asList(
+        "a", "o", "as", "os", "um", "uma", "uns", "umas", "dois", "duas", "tres",
+        "de", "da", "do", "das", "dos", "em", "na", "no", "nas", "nos", "num", "numa",
+        "ao", "aos", "por", "pelo", "pela", "pelos", "pelas", "para", "pra", "pro",
+        "com", "sem", "sob", "sobre", "entre", "ate", "apos", "contra", "desde",
+        "e", "ou", "nem", "mas", "que", "se", "como", "porque", "quando", "onde",
+        "qual", "quais", "isso", "isto", "esse", "essa", "este", "esta", "aquele", "aquela",
+        "eu", "voce", "ele", "ela", "seu", "sua", "meu", "minha",
+        "nao", "sim", "mais", "menos", "muito", "ja", "tambem", "so",
+        "ser", "sao", "foi", "ha", "tem",
+        "duvida", "ajuda", "pergunta", "alguem"
+    ));
 
     public ArquivoPergunta () throws Exception{
         super("perguntas", Pergunta.class.getConstructor());
@@ -26,38 +42,48 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
         if(indiceData.empty()){
             reconstruirIndiceData();
         }
+        if(invertedList.numeroEntidades() == 0){
+            reconstruirIndiceInvertido();
+        }
     }
-    
-    private int createRefInvert(Pergunta p) throws Exception{
-          String [] keyWords = p.getPalavrasChave().split(";");
-          HashMap<String,Float> frequency = new HashMap<>();
-          invertedList.incrementaEntidades();
 
-          for(int i=0; i < keyWords.length; i++){
-            keyWords[i]  = Normalizer.normalize(keyWords[i].strip(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
-            if(frequency.get(keyWords[i]) == null){
-                frequency.put(keyWords[i],1/((float)keyWords.length));
+    private static ArrayList<String> extrairTermos(String texto){
+        ArrayList<String> termos = new ArrayList<>();
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
+
+        for(String termo : normalizado.split("[^a-z0-9+#]+")){
+            if(!termo.isEmpty() && !STOP_WORDS.contains(termo)){
+                termos.add(termo);
+            }
+        }
+        return termos;
+
+    }
+
+    private void createRefInvert(Pergunta p) throws Exception{
+        ArrayList<String> termos = extrairTermos(p.getPalavrasChave());
+        float tf = 1 / (float) termos.size();
+
+        for(String termo : termos){
+            ElementoLista e = invertedList.read(termo, p.getId());
+            if(e == null){
+                invertedList.create(termo, new ElementoLista(p.getId(), tf));
             }else{
-                frequency.put(keyWords[i],frequency.get(keyWords[i]) + 1/((float)keyWords.length));
-            }            
-            
-          }
-          
-          for(int i =0; i <  keyWords.length; i++){
-                if(!invertedList.create(keyWords[i], new ElementoLista(p.getId(), frequency.get(keyWords[i])))){
-                    invertedList.delete(keyWords[i],p.getId());
-                    invertedList.create(keyWords[i], new ElementoLista(p.getId(), frequency.get(keyWords[i])));
-                }
-          }
-
-        return 1;
+                invertedList.update(termo, new ElementoLista(p.getId(), e.getFrequencia() + tf));
+            }
+        }
     }
-    
+
     public void removeAllKeyWords(Pergunta p)throws Exception{
-        String [] keyWords = p.getPalavrasChave().split(";");
-        invertedList.decrementaEntidades();
-        for(int i =0; i < keyWords.length; i++){
-            invertedList.delete(keyWords[i], p.getId());
+        for(String termo : extrairTermos(p.getPalavrasChave())){
+            invertedList.delete(termo, p.getId());
+        }
+    }
+
+    private void reconstruirIndiceInvertido() throws Exception{
+        for(Pergunta p : super.readAll()){
+            invertedList.incrementaEntidades();
+            createRefInvert(p);
         }
     }
 
@@ -77,10 +103,9 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
         relUsuarioPergunta.create(new ParIdId(p.getIdUsuario(), id));
 
         indiceData.create(new ParDataId(p.getCriacao(), id));
-        p.setId(id);        
+        p.setId(id);
+        invertedList.incrementaEntidades();
         createRefInvert(p);
-
-        invertedList.print(); 
 
         return id;
     }
@@ -126,21 +151,8 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
 
     public ArrayList<Pergunta> readPerguntasByWords(String consulta) throws Exception{
         ArrayList<Pergunta> resultado = new ArrayList<>();
-        HashMap<String, Integer> termos = new HashMap<>();
-        String[] palavras = consulta.strip().split("\\s+");
-
-        for(int i = 0; i < palavras.length; i++){
-            String aux = Normalizer.normalize(palavras[i].strip(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
-
-            if(!aux.isEmpty()){
-                if(termos.get(aux) == null){
-                    termos.put(aux,1);
-                }else{
-                    termos.put(aux, termos.get(aux)+1);
-                }
-            }
-
-        }
+        
+        LinkedHashSet<String> termos = new LinkedHashSet<>(extrairTermos(consulta));
 
         int total = invertedList.numeroEntidades();
         if (termos.isEmpty() || total <= 0){
@@ -150,7 +162,7 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
         //calculo tfxidf
         double idf;
         HashMap<Integer, Double> scores = new HashMap<>();
-        for(String termo : termos.keySet()){
+        for(String termo : termos){
             ElementoLista[] lista = invertedList.read(termo);
             if(lista.length > 0){
                 idf = Math.log10((double) total / lista.length);
@@ -183,9 +195,13 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
 
     @Override
     public boolean update(Pergunta p) throws Exception{
+        // a versão gravada ainda tem as palavras-chave antigas; o p já chega com as novas
+        Pergunta antiga = super.read(p.getId());
         boolean ok = super.update(p);
-        removeAllKeyWords(p);
-        createRefInvert(p);
+        if(ok){
+            removeAllKeyWords(antiga);
+            createRefInvert(p);
+        }
         if(ok && !p.isAtiva()){
             // pergunta arquivada nao fica publica
             indiceData.delete(new ParDataId(p.getCriacao(), p.getId()));
@@ -202,6 +218,7 @@ public class ArquivoPergunta extends Arquivo<Pergunta>{
         if(p == null){
             return false;
         }
+        invertedList.decrementaEntidades();
         removeAllKeyWords(p);
         relUsuarioPergunta.delete(new ParIdId(p.getIdUsuario(), id));
         indiceData.delete(new ParDataId(p.getCriacao(), id));
