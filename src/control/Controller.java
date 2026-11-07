@@ -230,6 +230,10 @@ public class Controller {
         return managerModel.getArqPergunta().readPergunta(id);
     }
 
+    public ArrayList<Pergunta> readPerguntasByWords(String words) throws Exception{
+        return managerModel.getArqPergunta().readPerguntasByWords(words);
+    }
+
     public static final int PERGUNTAS_POR_PAGINA = 5;
 
     public ArrayList<Pergunta> listarPerguntasRecentes(int pagina) throws Exception{

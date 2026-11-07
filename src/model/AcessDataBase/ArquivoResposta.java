@@ -22,6 +22,7 @@ public class ArquivoResposta extends Arquivo<Resposta>{
         return id;
     }
 
+
     @Override
     public boolean delete(int id) throws Exception{
         Resposta r = super.read(id);
