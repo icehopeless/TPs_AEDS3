@@ -1,0 +1,506 @@
+0
+s
+dxs@gmail.com
+1
+0
+1
+1
+Como funciona a serializacao de objetos em Java?
+
+java;serializacao;objetos;arquivos
+enter
+1
+Qual a diferenca entre ArrayList e LinkedList?
+
+java;arraylist;linkedlist;listas
+enter
+1
+Como tratar excecoes em Java?
+
+java;excecoes;try;catch
+enter
+1
+O que e uma interface em Java?
+
+java;interface;orientacao a objetos
+enter
+1
+Qual a diferenca entre classe abstrata e interface?
+
+java;classe abstrata;interface
+enter
+1
+Como funciona o modificador static?
+
+java;static;metodos;atributos
+enter
+1
+O que e encapsulamento na programacao orientada a objetos?
+
+orientacao a objetos;encapsulamento
+enter
+1
+Qual a diferenca entre sobrecarga e sobrescrita?
+
+java;sobrecarga;sobrescrita;polimorfismo
+enter
+1
+Como funciona o garbage collector do Java?
+
+java;garbage collector;memoria
+enter
+1
+Para que serve o metodo equals?
+
+java;equals;comparacao
+enter
+1
+O que e uma chave primaria em banco de dados?
+
+banco de dados;sql;chave primaria
+enter
+1
+Qual a diferenca entre chave primaria e estrangeira?
+
+banco de dados;sql;chave estrangeira
+enter
+1
+Como funciona um indice B+?
+
+banco de dados;indice;arvore b+
+enter
+1
+O que e normalizacao de banco de dados?
+
+banco de dados;normalizacao;relacionamento
+enter
+1
+Qual a diferenca entre INNER JOIN e LEFT JOIN?
+
+sql;join;inner join;left join
+enter
+1
+Para que serve a clausula GROUP BY?
+
+sql;group by;agrupamento
+enter
+1
+Qual a diferenca entre DELETE, DROP e TRUNCATE?
+
+sql;delete;drop;truncate
+enter
+1
+O que e uma transacao em banco de dados?
+
+banco de dados;transacao;acid
+enter
+1
+O que significa atomicidade em uma transacao?
+
+banco de dados;acid;atomicidade
+enter
+1
+Como funciona o controle de concorrencia em bancos de dados?
+
+banco de dados;concorrencia;transacoes
+enter
+1
+O que e uma view em SQL?
+
+sql;view;visao
+enter
+1
+Como funciona o protocolo TCP?
+
+redes;tcp;protocolo
+enter
+1
+Qual a diferenca entre TCP e UDP?
+
+redes;tcp;udp
+enter
+1
+O que e uma mascara de sub-rede?
+
+redes;ip;mascara de sub-rede
+enter
+1
+Como funciona o DNS?
+
+redes;dns;resolucao de nomes
+enter
+1
+Qual a diferenca entre IPv4 e IPv6?
+
+redes;ipv4;ipv6;enderecamento
+enter
+1
+O que e o protocolo DHCP?
+
+redes;dhcp;enderecamento
+enter
+1
+Para que serve o protocolo ARP?
+
+redes;arp;enderecamento mac
+enter
+1
+Qual a diferenca entre switch e roteador?
+
+redes;switch;roteador
+enter
+1
+O que significa NAT em redes?
+
+redes;nat;traducao de enderecos
+enter
+1
+Como funciona o modelo OSI?
+
+redes;modelo osi;camadas
+enter
+1
+O que e uma vulnerabilidade de SQL Injection?
+
+seguranca;sql injection;web
+enter
+1
+Como evitar ataques XSS?
+
+seguranca;xss;web
+enter
+1
+O que e autenticacao multifator?
+
+seguranca;autenticacao;mfa
+enter
+1
+Qual a diferenca entre criptografia simetrica e assimetrica?
+
+seguranca;criptografia;chaves
+enter
+1
+O que e uma funcao hash criptografica?
+
+seguranca;hash;criptografia
+enter
+1
+Para que serve o sal no armazenamento de senhas?
+
+seguranca;senhas;salt;hash
+enter
+1
+O que e um ataque de phishing?
+
+seguranca;phishing;engenharia social
+enter
+1
+Qual a diferenca entre autenticacao e autorizacao?
+
+seguranca;autenticacao;autorizacao
+enter
+1
+O que e uma falha de controle de acesso?
+
+seguranca;controle de acesso;autorizacao
+enter
+1
+Como funciona uma conexao TLS?
+
+seguranca;tls;certificados;criptografia
+enter
+1
+Como funciona o controle de versao com Git?
+
+git;versionamento;commit
+enter
+1
+Qual a diferenca entre git merge e git rebase?
+
+git;merge;rebase;branches
+enter
+1
+O que e um branch no Git?
+
+git;branch;ramificacao
+enter
+1
+Para que serve o comando git stash?
+
+git;stash;alteracoes
+enter
+1
+Como desfazer o ultimo commit sem perder as alteracoes?
+
+git;commit;reset
+enter
+1
+O que e integracao continua?
+
+devops;integracao continua;ci
+enter
+1
+Qual a diferenca entre integracao continua e entrega continua?
+
+devops;ci;cd;entrega continua
+enter
+1
+O que e um container Docker?
+
+docker;container;virtualizacao
+enter
+1
+Qual a diferenca entre imagem e container no Docker?
+
+docker;imagem;container
+enter
+1
+Para que serve um Dockerfile?
+
+docker;dockerfile;build
+enter
+1
+Qual a diferenca entre processo e thread?
+
+sistemas operacionais;processo;thread
+enter
+1
+O que e gerenciamento de memoria?
+
+sistemas operacionais;memoria;alocacao
+enter
+1
+Como funciona a memoria virtual?
+
+sistemas operacionais;memoria virtual;paginas
+enter
+1
+O que e escalonamento de processos?
+
+sistemas operacionais;escalonamento;processos
+enter
+1
+Qual a diferenca entre deadlock e starvation?
+
+sistemas operacionais;deadlock;starvation
+enter
+1
+O que e uma chamada de sistema?
+
+sistemas operacionais;system call;kernel
+enter
+1
+Qual a funcao do kernel de um sistema operacional?
+
+sistemas operacionais;kernel;nucleo
+enter
+1
+O que e uma interrupcao de hardware?
+
+sistemas operacionais;interrupcao;hardware
+enter
+1
+Como funciona o sistema de arquivos?
+
+sistemas operacionais;sistema de arquivos;armazenamento
+enter
+1
+Qual a diferenca entre modo usuario e modo kernel?
+
+sistemas operacionais;modo usuario;modo kernel
+enter
+1
+Como funciona uma pilha?
+
+estrutura de dados;pilha;lifo
+enter
+1
+Qual a diferenca entre busca linear e busca binaria?
+
+algoritmos;busca linear;busca binaria
+enter
+1
+Como funciona uma fila?
+
+estrutura de dados;fila;fifo
+enter
+1
+O que e uma lista simplesmente encadeada?
+
+estrutura de dados;lista encadeada;ponteiros
+enter
+1
+Qual a diferenca entre arvore binaria e arvore binaria de busca?
+
+estrutura de dados;arvore binaria;abb
+enter
+1
+Como funciona uma tabela hash?
+
+estrutura de dados;hash;espalhamento
+enter
+1
+O que e uma colisao em uma tabela hash?
+
+estrutura de dados;hash;colisao
+enter
+1
+Qual a complexidade de busca em uma arvore AVL?
+
+algoritmos;arvore avl;complexidade
+enter
+1
+Como funciona o algoritmo QuickSort?
+
+algoritmos;quicksort;ordenacao
+enter
+1
+Qual a diferenca entre MergeSort e QuickSort?
+
+algoritmos;mergesort;quicksort;ordenacao
+enter
+1
+O que significa notacao Big O?
+
+algoritmos;complexidade;big o
+enter
+1
+Como funciona a recursividade?
+
+algoritmos;recursividade;pilha de chamadas
+enter
+1
+O que e programacao dinamica?
+
+algoritmos;programacao dinamica;otimizacao
+enter
+1
+Qual a diferenca entre algoritmo guloso e programacao dinamica?
+
+algoritmos;guloso;programacao dinamica
+enter
+1
+O que e um grafo direcionado?
+
+teoria dos grafos;grafo direcionado;arestas
+enter
+1
+Qual a diferenca entre busca em largura e busca em profundidade?
+
+teoria dos grafos;bfs;dfs
+enter
+1
+Como funciona o algoritmo de Dijkstra?
+
+teoria dos grafos;dijkstra;menor caminho
+enter
+1
+O que e uma arvore geradora minima?
+
+teoria dos grafos;arvore geradora minima;agm
+enter
+1
+Como identificar um ciclo em um grafo?
+
+teoria dos grafos;ciclo;dfs
+enter
+1
+O que e uma matriz de adjacencia?
+
+teoria dos grafos;matriz de adjacencia;representacao
+enter
+1
+Qual a diferenca entre grafo completo e grafo conexo?
+
+teoria dos grafos;grafo completo;grafo conexo
+enter
+1
+O que e uma relacao de equivalencia?
+
+matematica discreta;relacao de equivalencia;conjuntos
+enter
+1
+Como calcular o determinante de uma matriz?
+
+algebra linear;matriz;determinante
+enter
+1
+O que significa uma matriz ser inversivel?
+
+algebra linear;matriz inversa;inversibilidade
+enter
+1
+Qual a diferenca entre vetor e matriz?
+
+algebra linear;vetores;matrizes
+enter
+1
+O que e uma base de um espaco vetorial?
+
+algebra linear;base;espaco vetorial
+enter
+1
+Como calcular autovalores de uma matriz?
+
+algebra linear;autovalores;autovetores
+enter
+1
+O que e uma integral impropria?
+
+calculo;integral impropria;limites
+enter
+1
+Como calcular o comprimento de arco de uma curva?
+
+calculo;comprimento de arco;integral
+enter
+1
+O que representa o centroide de uma regiao?
+
+calculo;centroide;momentos
+enter
+1
+Qual a diferenca entre derivada e integral?
+
+calculo;derivada;integral
+enter
+1
+Como aplicar o Teorema do Valor Medio?
+
+calculo;teorema do valor medio;continuidade
+enter
+1
+O que e uma API REST?
+
+desenvolvimento web;api;rest
+enter
+1
+Qual a diferenca entre GET e POST em HTTP?
+
+http;get;post;api
+enter
+1
+O que significa o codigo HTTP 404?
+
+http;status code;404
+enter
+1
+O que e CORS e por que ele existe?
+
+desenvolvimento web;cors;seguranca
+enter
+1
+Qual a diferenca entre cookie e session?
+
+desenvolvimento web;cookie;session
+enter
+1
+Como funciona o armazenamento local no navegador?
+
+desenvolvimento web;localstorage;navegador
+enter
+1
+O que e uma injecao de dependencias?
+
+desenvolvimento de software;injecao de dependencias;arquitetura
+enter

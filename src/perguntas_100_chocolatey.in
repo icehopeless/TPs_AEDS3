@@ -1,0 +1,506 @@
+0
+s
+ws@gmail.com
+7
+0
+1
+1
+Como funciona a serializacao de objetos em Java?
+
+java;serializacao;objetos;arquivos;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre ArrayList e LinkedList?
+
+java;arraylist;linkedlist;listas;chocolatey;pacote-windows
+enter
+1
+Como tratar excecoes em Java?
+
+java;excecoes;try;catch;chocolatey;pacote-windows
+enter
+1
+O que e uma interface em Java?
+
+java;interface;orientacao a objetos;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre classe abstrata e interface?
+
+java;classe abstrata;interface;chocolatey;pacote-windows
+enter
+1
+Como funciona o modificador static?
+
+java;static;metodos;atributos;chocolatey;pacote-windows
+enter
+1
+O que e encapsulamento na programacao orientada a objetos?
+
+orientacao a objetos;encapsulamento;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre sobrecarga e sobrescrita?
+
+java;sobrecarga;sobrescrita;polimorfismo;chocolatey;pacote-windows
+enter
+1
+Como funciona o garbage collector do Java?
+
+java;garbage collector;memoria;chocolatey;pacote-windows
+enter
+1
+Para que serve o metodo equals?
+
+java;equals;comparacao;chocolatey;pacote-windows
+enter
+1
+O que e uma chave primaria em banco de dados?
+
+banco de dados;sql;chave primaria;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre chave primaria e estrangeira?
+
+banco de dados;sql;chave estrangeira;chocolatey;pacote-windows
+enter
+1
+Como funciona um indice B+?
+
+banco de dados;indice;arvore b+;chocolatey;pacote-windows
+enter
+1
+O que e normalizacao de banco de dados?
+
+banco de dados;normalizacao;relacionamento;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre INNER JOIN e LEFT JOIN?
+
+sql;join;inner join;left join;chocolatey;pacote-windows
+enter
+1
+Para que serve a clausula GROUP BY?
+
+sql;group by;agrupamento;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre DELETE, DROP e TRUNCATE?
+
+sql;delete;drop;truncate;chocolatey;pacote-windows
+enter
+1
+O que e uma transacao em banco de dados?
+
+banco de dados;transacao;acid;chocolatey;pacote-windows
+enter
+1
+O que significa atomicidade em uma transacao?
+
+banco de dados;acid;atomicidade;chocolatey;pacote-windows
+enter
+1
+Como funciona o controle de concorrencia em bancos de dados?
+
+banco de dados;concorrencia;transacoes;chocolatey;pacote-windows
+enter
+1
+O que e uma view em SQL?
+
+sql;view;visao;chocolatey;pacote-windows
+enter
+1
+Como funciona o protocolo TCP?
+
+redes;tcp;protocolo;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre TCP e UDP?
+
+redes;tcp;udp;chocolatey;pacote-windows
+enter
+1
+O que e uma mascara de sub-rede?
+
+redes;ip;mascara de sub-rede;chocolatey;pacote-windows
+enter
+1
+Como funciona o DNS?
+
+redes;dns;resolucao de nomes;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre IPv4 e IPv6?
+
+redes;ipv4;ipv6;enderecamento;chocolatey;pacote-windows
+enter
+1
+O que e o protocolo DHCP?
+
+redes;dhcp;enderecamento;chocolatey;pacote-windows
+enter
+1
+Para que serve o protocolo ARP?
+
+redes;arp;enderecamento mac;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre switch e roteador?
+
+redes;switch;roteador;chocolatey;pacote-windows
+enter
+1
+O que significa NAT em redes?
+
+redes;nat;traducao de enderecos;chocolatey;pacote-windows
+enter
+1
+Como funciona o modelo OSI?
+
+redes;modelo osi;camadas;chocolatey;pacote-windows
+enter
+1
+O que e uma vulnerabilidade de SQL Injection?
+
+seguranca;sql injection;web;chocolatey;pacote-windows
+enter
+1
+Como evitar ataques XSS?
+
+seguranca;xss;web;chocolatey;pacote-windows
+enter
+1
+O que e autenticacao multifator?
+
+seguranca;autenticacao;mfa;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre criptografia simetrica e assimetrica?
+
+seguranca;criptografia;chaves;chocolatey;pacote-windows
+enter
+1
+O que e uma funcao hash criptografica?
+
+seguranca;hash;criptografia;chocolatey;pacote-windows
+enter
+1
+Para que serve o sal no armazenamento de senhas?
+
+seguranca;senhas;salt;hash;chocolatey;pacote-windows
+enter
+1
+O que e um ataque de phishing?
+
+seguranca;phishing;engenharia social;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre autenticacao e autorizacao?
+
+seguranca;autenticacao;autorizacao;chocolatey;pacote-windows
+enter
+1
+O que e uma falha de controle de acesso?
+
+seguranca;controle de acesso;autorizacao;chocolatey;pacote-windows
+enter
+1
+Como funciona uma conexao TLS?
+
+seguranca;tls;certificados;criptografia;chocolatey;pacote-windows
+enter
+1
+Como funciona o controle de versao com Git?
+
+git;versionamento;commit;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre git merge e git rebase?
+
+git;merge;rebase;branches;chocolatey;pacote-windows
+enter
+1
+O que e um branch no Git?
+
+git;branch;ramificacao;chocolatey;pacote-windows
+enter
+1
+Para que serve o comando git stash?
+
+git;stash;alteracoes;chocolatey;pacote-windows
+enter
+1
+Como desfazer o ultimo commit sem perder as alteracoes?
+
+git;commit;reset;chocolatey;pacote-windows
+enter
+1
+O que e integracao continua?
+
+devops;integracao continua;ci;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre integracao continua e entrega continua?
+
+devops;ci;cd;entrega continua;chocolatey;pacote-windows
+enter
+1
+O que e um container Docker?
+
+docker;container;virtualizacao;chocolatey;pacote-windows
+enter
+1
+Qual a diferenca entre imagem e container no Docker?
+
+docker;imagem;container;chocolatey;pacote-windows
+enter
+1
+Para que serve um Dockerfile?
+
+docker;dockerfile;build;chocolatey
+enter
+1
+Qual a diferenca entre processo e thread?
+
+sistemas operacionais;processo;thread;chocolatey
+enter
+1
+O que e gerenciamento de memoria?
+
+sistemas operacionais;memoria;alocacao;chocolatey
+enter
+1
+Como funciona a memoria virtual?
+
+sistemas operacionais;memoria virtual;paginas;chocolatey
+enter
+1
+O que e escalonamento de processos?
+
+sistemas operacionais;escalonamento;processos;chocolatey
+enter
+1
+Qual a diferenca entre deadlock e starvation?
+
+sistemas operacionais;deadlock;starvation;chocolatey
+enter
+1
+O que e uma chamada de sistema?
+
+sistemas operacionais;system call;kernel;chocolatey
+enter
+1
+Qual a funcao do kernel de um sistema operacional?
+
+sistemas operacionais;kernel;nucleo;chocolatey
+enter
+1
+O que e uma interrupcao de hardware?
+
+sistemas operacionais;interrupcao;hardware;chocolatey
+enter
+1
+Como funciona o sistema de arquivos?
+
+sistemas operacionais;sistema de arquivos;armazenamento;chocolatey
+enter
+1
+Qual a diferenca entre modo usuario e modo kernel?
+
+sistemas operacionais;modo usuario;modo kernel;chocolatey
+enter
+1
+Como funciona uma pilha?
+
+estrutura de dados;pilha;lifo;chocolatey
+enter
+1
+Qual a diferenca entre busca linear e busca binaria?
+
+algoritmos;busca linear;busca binaria;chocolatey
+enter
+1
+Como funciona uma fila?
+
+estrutura de dados;fila;fifo;chocolatey
+enter
+1
+O que e uma lista simplesmente encadeada?
+
+estrutura de dados;lista encadeada;ponteiros;chocolatey
+enter
+1
+Qual a diferenca entre arvore binaria e arvore binaria de busca?
+
+estrutura de dados;arvore binaria;abb;chocolatey
+enter
+1
+Como funciona uma tabela hash?
+
+estrutura de dados;hash;espalhamento;chocolatey
+enter
+1
+O que e uma colisao em uma tabela hash?
+
+estrutura de dados;hash;colisao;chocolatey
+enter
+1
+Qual a complexidade de busca em uma arvore AVL?
+
+algoritmos;arvore avl;complexidade;chocolatey
+enter
+1
+Como funciona o algoritmo QuickSort?
+
+algoritmos;quicksort;ordenacao;chocolatey
+enter
+1
+Qual a diferenca entre MergeSort e QuickSort?
+
+algoritmos;mergesort;quicksort;ordenacao;chocolatey
+enter
+1
+O que significa notacao Big O?
+
+algoritmos;complexidade;big o;chocolatey
+enter
+1
+Como funciona a recursividade?
+
+algoritmos;recursividade;pilha de chamadas;chocolatey
+enter
+1
+O que e programacao dinamica?
+
+algoritmos;programacao dinamica;otimizacao;chocolatey
+enter
+1
+Qual a diferenca entre algoritmo guloso e programacao dinamica?
+
+algoritmos;guloso;programacao dinamica;chocolatey
+enter
+1
+O que e um grafo direcionado?
+
+teoria dos grafos;grafo direcionado;arestas;chocolatey
+enter
+1
+Qual a diferenca entre busca em largura e busca em profundidade?
+
+teoria dos grafos;bfs;dfs;chocolatey
+enter
+1
+Como funciona o algoritmo de Dijkstra?
+
+teoria dos grafos;dijkstra;menor caminho;chocolatey
+enter
+1
+O que e uma arvore geradora minima?
+
+teoria dos grafos;arvore geradora minima;agm;chocolatey
+enter
+1
+Como identificar um ciclo em um grafo?
+
+teoria dos grafos;ciclo;dfs;chocolatey
+enter
+1
+O que e uma matriz de adjacencia?
+
+teoria dos grafos;matriz de adjacencia;representacao;chocolatey
+enter
+1
+Qual a diferenca entre grafo completo e grafo conexo?
+
+teoria dos grafos;grafo completo;grafo conexo;chocolatey
+enter
+1
+O que e uma relacao de equivalencia?
+
+matematica discreta;relacao de equivalencia;conjuntos;chocolatey
+enter
+1
+Como calcular o determinante de uma matriz?
+
+algebra linear;matriz;determinante;chocolatey
+enter
+1
+O que significa uma matriz ser inversivel?
+
+algebra linear;matriz inversa;inversibilidade;chocolatey
+enter
+1
+Qual a diferenca entre vetor e matriz?
+
+algebra linear;vetores;matrizes;chocolatey
+enter
+1
+O que e uma base de um espaco vetorial?
+
+algebra linear;base;espaco vetorial;chocolatey
+enter
+1
+Como calcular autovalores de uma matriz?
+
+algebra linear;autovalores;autovetores;chocolatey
+enter
+1
+O que e uma integral impropria?
+
+calculo;integral impropria;limites;chocolatey
+enter
+1
+Como calcular o comprimento de arco de uma curva?
+
+calculo;comprimento de arco;integral;chocolatey
+enter
+1
+O que representa o centroide de uma regiao?
+
+calculo;centroide;momentos;chocolatey
+enter
+1
+Qual a diferenca entre derivada e integral?
+
+calculo;derivada;integral;chocolatey
+enter
+1
+Como aplicar o Teorema do Valor Medio?
+
+calculo;teorema do valor medio;continuidade;chocolatey
+enter
+1
+O que e uma API REST?
+
+desenvolvimento web;api;rest;chocolatey
+enter
+1
+Qual a diferenca entre GET e POST em HTTP?
+
+http;get;post;api;chocolatey
+enter
+1
+O que significa o codigo HTTP 404?
+
+http;status code;404;chocolatey
+enter
+1
+O que e CORS e por que ele existe?
+
+desenvolvimento web;cors;seguranca;chocolatey
+enter
+1
+Qual a diferenca entre cookie e session?
+
+desenvolvimento web;cookie;session;chocolatey
+enter
+1
+Como funciona o armazenamento local no navegador?
+
+desenvolvimento web;localstorage;navegador;chocolatey
+enter
+1
+O que e uma injecao de dependencias?
+
+desenvolvimento de software;injecao de dependencias;arquitetura;chocolatey
+enter

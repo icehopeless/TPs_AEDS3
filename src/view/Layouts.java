@@ -101,6 +101,21 @@ public enum Layouts {
                 Color.GREEN.getCode() + "┌──┐\r\n" + //
                  "│"+ Color.PURPLE.getCode() + "~{}" +Color.GREEN.getCode()+ "│\r\n" + //
                 Color.GREEN.getCode() + "└──┘\r\n" 
+    ),
+
+    SearchByKeyword(
+        Color.GREEN.getCode() +
+        "┌──────────────────────────────────────────────────────────────┐\r\n" +
+        "│                                                              │\r\n" +
+        "│                    BUSCA POR PALAVRAS-CHAVE                  │\r\n" +
+        "│                                                              │\r\n" +
+        "│  Informe as palavras-chave para localizar perguntas.         │\r\n" +
+        "│                                                              │\r\n" +
+        "│  Separe os termos por espaço                                 │\r\n" +
+        "│                                                              │\r\n" +
+        "│  Digite ret para retornar                                    │\r\n" +
+        "└──────────────────────────────────────────────────────────────┘\r\n" +
+        "\r\n" + Color.GREEN.getCode() +" TerminalMe "+ Color.PURPLE.getCode()+"> "
     );
 
     

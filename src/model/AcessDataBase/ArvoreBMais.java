@@ -666,16 +666,19 @@ public class ArvoreBMais<T extends InterfaceArvoreBMais<T>> {
             if (pIrmaoEsq != null && pIrmaoEsq.elementos.size() > maxElementos / 2) {
 
                 // Se for folha, copia o elemento do irmão, já que o do pai será extinto ou
-                // repetido
-                if (pFilho.filhos.get(0) == -1)
+                // repetido, e o novo primeiro elemento do filho sobe para o pai
+                if (pFilho.filhos.get(0) == -1) {
                     pFilho.elementos.add(0, pIrmaoEsq.elementos.remove(pIrmaoEsq.elementos.size() - 1));
+                    pa.elementos.set(diminuido - 1, pFilho.elementos.get(0));
+                }
 
-                // Se não for folha, desce o elemento do pai
-                else
+                // Se não for folha, desce o elemento do pai e o último elemento do irmão sobe
+                // para o pai. (Correção feita no TP3: a versão original só descia o elemento do pai,
+                // o irmão perdia o ponteiro sem perder o elemento e a gravação dele estourava)
+                else {
                     pFilho.elementos.add(0, pa.elementos.get(diminuido - 1));
-
-                // Copia o elemento vindo do irmão para o pai (página atual)
-                pa.elementos.set(diminuido - 1, pFilho.elementos.get(0));
+                    pa.elementos.set(diminuido - 1, pIrmaoEsq.elementos.remove(pIrmaoEsq.elementos.size() - 1));
+                }
 
                 // Reduz o elemento no irmão (copia o ponteiro também)
                 pFilho.filhos.add(0, pIrmaoEsq.filhos.remove(pIrmaoEsq.filhos.size() - 1));

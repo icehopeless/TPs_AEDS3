@@ -22,8 +22,7 @@ public class StateSearchQuestions extends StateView {
         if(option == 0){
             context.changeState(new StateRecentQuestions(0));
         }else if(option == 1){
-            avisarEmConstrucao();
-            context.changeState(new StateSearchQuestions());
+            context.changeState(new StateByKeyWordQuestions(false,0));
         }else if(option == 2){
             singlePwd.pop();
             context.changeState(new StateMain());

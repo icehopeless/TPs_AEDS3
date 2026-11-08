@@ -1,9 +1,15 @@
 # Relatório
-# TP2 de AEDs III: TERMINALME, relacionamento N:N
+# TP3 de AEDs III: TERMINALME, índice invertido
 
-Trabalho prático 2 de Algoritmos e Estruturas de Dados III (PUC Minas, 2026.2). O TP2 continua o
-sistema do TP1: usuários e perguntas funcionam como antes, e agora qualquer usuário pode buscar as
-perguntas de todos, responder e avaliar as respostas.
+Trabalho prático 3 de Algoritmos e Estruturas de Dados III (PUC Minas, 2026.2). O TP3 continua o
+sistema dos TPs anteriores e completa a busca de perguntas: a opção "Busca por palavras-chave", que
+estava em construção, agora procura as perguntas pelos termos das palavras-chave. Um índice
+invertido, montado com a classe `ListaInvertida` do professor, guarda para cada termo os pares
+(idPergunta; TF), e o resultado da busca sai ordenado pelo valor TF×IDF.
+
+As seções sobre o TP3 estão marcadas como tal: [Busca por palavras-chave](#busca-por-palavras-chave-tp3)
+nas capturas, as classes novas em [Classes e métodos](#classes-e-métodos), as operações em
+[Do TP3](#do-tp3) e o [checklist](#checklist) no final.
 
 ## Participantes
 
@@ -18,23 +24,21 @@ perguntas de todos, responder e avaliar as respostas.
 
 O **TERMINALME** (*Terminal Question & Answer System*) é o nome que o grupo deu ao sistema pedido no
 enunciado como AJUDA AÍ 1.0. É uma versão simplificada do StackOverflow, feita em Java para o
-terminal. Depois do TP2, o sistema cobre quatro entidades:
+terminal. Depois do TP3, o sistema cobre quatro entidades:
 
 - **Usuários**, que se cadastram, entram com email e senha, recuperam a senha por uma pergunta
   secreta e alteram ou apagam os próprios dados.
 - **Perguntas**, que pertencem a um usuário. O autor inclui, lista, altera e arquiva as próprias
-  perguntas, e qualquer usuário encontra as perguntas de todos na listagem das mais recentes, de
-  cinco em cinco.
+  perguntas. Qualquer usuário encontra as perguntas de todos de duas formas: na listagem das mais
+  recentes, de cinco em cinco, ou pela busca por palavras-chave, de dez em dez, em ordem de TF×IDF.
 - **Respostas**, que ligam um usuário a uma pergunta. Qualquer usuário responde a uma pergunta
   ativa. A resposta não pode ser alterada, só arquivada, pelo autor dela ou pelo autor da pergunta.
 - **Avaliações**, que registram se um usuário concordou ou discordou de uma resposta. Cada usuário
   avalia uma resposta uma vez só e pode cancelar a avaliação depois.
 
-A busca por palavras-chave fica para o próximo TP, e a opção correspondente mostra "Opção em
-construção!".
-
 ### Apresentação do sistema
 
+- Vídeo do TP3: **[colocar aqui o link do vídeo do TP3]**
 - Vídeo do TP2: https://youtu.be/b5HtPXqXGl8
 - Vídeo do TP1: https://youtu.be/DJMiSdkOcdA
 
@@ -81,6 +85,8 @@ arquivos na pasta `dados/`, a partir da pasta onde é executado.
 | `dados/perguntas/indiceID.diretorio.db`, `indiceID.cestos.db` | índice direto das perguntas |
 | `dados/perguntas/relUsuarioPergunta.db` | Árvore B+ do relacionamento 1:N, com pares (idUsuario; idPergunta) |
 | `dados/perguntas/indiceData.db` | **Árvore B+ por data**, com pares (criação; idPergunta) das perguntas ativas, em ordem decrescente de data |
+| `dados/perguntas/DictionaryQuestions.db` | dicionário do **índice invertido** (TP3): os 4 primeiros bytes guardam quantas perguntas estão indexadas, que é o N do IDF; depois vem cada termo com o endereço do primeiro bloco da lista dele |
+| `dados/perguntas/InvertedQuestions.db` | blocos das listas invertidas (TP3): cada bloco guarda até 30 pares (idPergunta; TF) e o endereço do bloco seguinte do mesmo termo |
 | `dados/respostas/arquivo.db` | registros das respostas |
 | `dados/respostas/indiceID.diretorio.db`, `indiceID.cestos.db` | índice direto das respostas |
 | `dados/respostas/relPerguntaResposta.db` | Árvore B+ com pares (idPergunta; idResposta): as respostas de cada pergunta |
@@ -208,6 +214,185 @@ A opção "Buscar Perguntas", que no TP1 estava em construção, agora abre a bu
 
  TerminalMe > 0
 ```
+
+A opção 1 abre a busca por palavras-chave, descrita logo abaixo.
+
+### Busca por palavras-chave (TP3)
+
+As capturas do TP3 vêm de uma execução real com dois usuários, Ana Souza e Bruno Lima, e quatro
+perguntas. As palavras-chave delas repetem os títulos dos livros do exemplo do enunciado, para que
+as listas e os valores possam ser conferidos contra ele:
+
+| ID | Pergunta | Autor | Palavras-chave |
+|---|---|---|---|
+| 1 | Por onde começar a estudar inteligência artificial? | Ana Souza | `introdução;inteligência;artificial` |
+| 2 | Como desenvolver inteligência emocional sendo gestor? | Ana Souza | `inteligência;emocional;gestores` |
+| 3 | Inteligência no trabalho: como aplicar por meio da inteligência artificial? | Bruno Lima | `inteligência;trabalho;meio;inteligência;artificial` |
+| 4 | Que livro de introdução à gestão de equipes vocês recomendam? | Bruno Lima | `introdução;gestão;equipes` |
+
+Depois das quatro inclusões, os arquivos do índice continham as listas abaixo, impressas pelo
+método `print()` da `ListaInvertida`. Cada par é (idPergunta; TF). São as mesmas listas do
+enunciado; o termo "inteligencia" da pergunta 3 aparece duas vezes em cinco termos, por isso o TF é
+0,4.
+
+```
+Entidades: 4
+
+LISTAS INVERTIDAS:
+introducao: (1;0.33333334) (4;0.33333334)
+inteligencia: (1;0.33333334) (2;0.33333334) (3;0.4)
+artificial: (1;0.33333334) (3;0.2)
+emocional: (2;0.33333334)
+gestores: (2;0.33333334)
+trabalho: (3;0.2)
+meio: (3;0.2)
+gestao: (4;0.33333334)
+equipes: (4;0.33333334)
+```
+
+**Busca com mais de uma palavra.** A consulta foi digitada com acento e letra maiúscula, que a busca
+ignora:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│~Início > Buscar perguntas > Perguntas por palavras-chave│
+└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│                    BUSCA POR PALAVRAS-CHAVE                  │
+│                                                              │
+│  Informe as palavras-chave para localizar perguntas.         │
+│                                                              │
+│  Separe os termos por espaço                                 │
+│                                                              │
+│  Digite ret para retornar                                    │
+└──────────────────────────────────────────────────────────────┘
+
+ TerminalMe > Inteligência Artificial
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+
+|  (1) Por onde começar a estudar inteligência artificial?
+|      Criada por Ana Souza em 07/11/2026 10:20
+|
+|  (2) Inteligência no trabalho: como aplicar por meio da inteligência artificial?
+|      Criada por Bruno Lima em 07/11/2026 10:20
+|
+|  (3) Como desenvolver inteligência emocional sendo gestor?
+|      Criada por Ana Souza em 07/11/2026 10:20
+|
+|  Página 1 de 1
+|
+|  [A] Página anterior    [B] Próxima página    [R] Retornar
+|  Ou digite o número da pergunta para abri-la
+|
+|  Para realizar outra busca pressione qualquer outra tecla
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+ TerminalMe >
+```
+
+A ordem 1, 3, 2 é a mesma do enunciado. Com N = 4 perguntas, o termo "inteligencia" está em 3
+listas e "artificial" em 2:
+
+| Pergunta | inteligencia, IDF = log(4/3) = 0,125 | artificial, IDF = log(4/2) = 0,301 | TF×IDF |
+|---|---|---|---|
+| 1 | 0,333 × 0,125 = 0,042 | 0,333 × 0,301 = 0,100 | **0,142** |
+| 3 | 0,4 × 0,125 = 0,050 | 0,2 × 0,301 = 0,060 | **0,110** |
+| 2 | 0,333 × 0,125 = 0,042 | não tem o termo | **0,042** |
+| 4 | não tem o termo | não tem o termo | fica fora do resultado |
+
+**Antes da alteração das palavras-chave.** A busca por "artificial" encontra as perguntas 1 e 3:
+
+```
+ TerminalMe > artificial
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+
+|  (1) Por onde começar a estudar inteligência artificial?
+|      Criada por Ana Souza em 07/11/2026 10:20
+|
+|  (2) Inteligência no trabalho: como aplicar por meio da inteligência artificial?
+|      Criada por Bruno Lima em 07/11/2026 10:20
+|
+|  Página 1 de 1
+```
+
+**A alteração.** Em Minhas perguntas, Ana troca as palavras-chave da pergunta 1. A palavra "de" é
+uma stop word e não entra no índice:
+
+```
+ TerminalMe > 2
+ (1) 07/11/2026 10:20
+ Por onde começar a estudar inteligência artificial?
+ Palavras chave: introdução;inteligência;artificial
+
+ (2) 07/11/2026 10:20
+ Como desenvolver inteligência emocional sendo gestor?
+ Palavras chave: inteligência;emocional;gestores
+
+ Digite o número da pergunta (0 para cancelar):
+ TerminalMe > 1
+ Texto atual:
+ Por onde começar a estudar inteligência artificial?
+ Digite o novo texto (linha vazia para terminar, só Enter mantém o atual):
+ TerminalMe >
+ Palavras chave atuais: introdução;inteligência;artificial
+ Digite as novas palavras chave separadas por ; (só Enter mantém as atuais):
+ TerminalMe > aprendizado de máquina;python
+Pergunta alterada com sucesso!
+ Pressione Enter para continuar...
+```
+
+**Depois da alteração.** A mesma busca por "artificial" traz só a pergunta 3, e a pergunta 1 passa a
+ser encontrada pelos termos novos:
+
+```
+ TerminalMe > artificial
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+
+|  (1) Inteligência no trabalho: como aplicar por meio da inteligência artificial?
+|      Criada por Bruno Lima em 07/11/2026 10:20
+|
+|  Página 1 de 1
+```
+
+```
+ TerminalMe > aprendizado máquina
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+
+|  (1) Por onde começar a estudar inteligência artificial?
+|      Criada por Ana Souza em 07/11/2026 10:20
+|
+|  Página 1 de 1
+```
+
+As listas depois da alteração mostram que o ID 1 saiu de "introducao", "inteligencia" e
+"artificial" e entrou nos três termos novos. O número de perguntas continua 4:
+
+```
+Entidades: 4
+
+LISTAS INVERTIDAS:
+introducao: (4;0.33333334)
+inteligencia: (2;0.33333334) (3;0.4)
+artificial: (3;0.2)
+emocional: (2;0.33333334)
+gestores: (2;0.33333334)
+trabalho: (3;0.2)
+meio: (3;0.2)
+gestao: (4;0.33333334)
+equipes: (4;0.33333334)
+aprendizado: (1;0.33333334)
+maquina: (1;0.33333334)
+python: (1;0.33333334)
+```
+
+Uma busca sem nenhum resultado mostra "Nenhuma pergunta encontrada para esses termos.". Com mais de
+dez resultados, as opções A e B trocam de página, e o rodapé mostra, por exemplo, "Página 2 de 2".
 
 ### Perguntas mais recentes
 
@@ -824,6 +1009,7 @@ O estado só aparece quando a pergunta está arquivada.
 | `updatePergunta(Pergunta, String texto, String palavras)` | confere o dono e se a pergunta está ativa, mantém o campo deixado em branco, atualiza a data de alteração e regrava |
 | `arquivarPergunta(Pergunta)` | confere o dono e se a pergunta ainda está ativa, marca como arquivada e regrava |
 | `readPergunta(int id)` | lê uma pergunta pelo ID |
+| `readPerguntasByWords(String termos)` (TP3) | repassa a consulta ao `ArquivoPergunta` e devolve as perguntas ativas em ordem decrescente de TF×IDF |
 | `listarPerguntasRecentes(int pagina)` | devolve a página pedida da listagem por data, com `PERGUNTAS_POR_PAGINA = 5` |
 | `totalPaginasRecentes()` | devolve o número de páginas, com a divisão arredondada para cima |
 | `readRespostasByPergunta(int idPergunta)` | devolve as respostas ativas da pergunta, ordenadas por nota decrescente |
@@ -881,18 +1067,24 @@ O estado só aparece quando a pergunta está arquivada.
 
 | Método | O que faz |
 |---|---|
-| construtor | abre as duas árvores; se a árvore por data estiver vazia, chama `reconstruirIndiceData()` |
+| construtor | abre as duas árvores e a `ListaInvertida` (30 pares por bloco); se a árvore por data estiver vazia, chama `reconstruirIndiceData()`, e se o índice invertido estiver vazio, chama `reconstruirIndiceInvertido()` |
 | `reconstruirIndiceData()` (privado) | percorre o arquivo uma vez e indexa por data as perguntas ativas que já existiam antes do índice |
-| `create(Pergunta)` | grava a pergunta, inclui o par (idUsuario; idPergunta) na árvore do relacionamento e o par (criação; idPergunta) na árvore por data |
+| `STOP_WORDS` (TP3) | o conjunto das stop words, já sem acento |
+| `extrairTermos(String)` (TP3, privado) | monta o vetor de termos: tira os acentos, passa para minúsculas, separa o texto em termos e descarta as stop words. Serve tanto às palavras-chave quanto à consulta |
+| `createRefInvert(Pergunta)` (TP3, privado) | calcula o TF de cada termo (1 dividido pelo total de termos) e grava o par (idPergunta; TF) na lista do termo; se o termo se repete, lê o par com `read(termo, id)` e soma a frequência com `update` |
+| `removeAllKeyWords(Pergunta)` (TP3) | tira o ID da pergunta da lista de cada termo das palavras-chave dela |
+| `reconstruirIndiceInvertido()` (TP3, privado) | indexa as perguntas que já existiam no arquivo quando o índice invertido ainda não existia, como as dos dados do TP2 |
+| `create(Pergunta)` | grava a pergunta, inclui o par (idUsuario; idPergunta) na árvore do relacionamento e o par (criação; idPergunta) na árvore por data; no TP3, também soma 1 ao número de perguntas do índice e indexa as palavras-chave |
 | `readPergunta(int id)` | lê a pergunta pelo índice direto |
 | `readByUser(int idUsuario)` | busca na árvore do relacionamento todos os pares do usuário e lê cada pergunta pelo índice direto |
 | `readRecentes(int pagina, int porPagina)` | lê todos os pares da árvore por data, já em ordem decrescente, e lê do arquivo só as perguntas da página pedida |
 | `contarRecentes()` | devolve quantas perguntas ativas estão na árvore por data |
-| `update(Pergunta)` | regrava a pergunta e, se ela foi arquivada, tira o par da árvore por data |
-| `delete(int id)` | remove o par das duas árvores e depois o registro |
+| `readPerguntasByWords(String consulta)` (TP3) | a busca: monta os termos da consulta, soma TF×IDF por pergunta e devolve as perguntas ativas em ordem decrescente de valor |
+| `update(Pergunta)` | regrava a pergunta e, se ela foi arquivada, tira o par da árvore por data; no TP3, lê antes a versão gravada, tira do índice as palavras-chave antigas e indexa as novas |
+| `delete(int id)` | remove o par das duas árvores e depois o registro; no TP3, também tira a pergunta do índice invertido e diminui em 1 o número de perguntas |
 
 O ID, o `idUsuario` e a data de criação de uma pergunta nunca mudam, então os pares das duas árvores
-continuam válidos mesmo quando o registro muda de lugar no arquivo.
+e do índice invertido continuam válidos mesmo quando o registro muda de lugar no arquivo.
 
 **`model.AcessDataBase.ParDataId`**
 - é o par (data de criação; idPergunta) da árvore por data, com tamanho fixo de 12 bytes (`long` mais `int`). O `compareTo` é invertido de propósito, para a data maior vir antes, e desempata pelo ID quando duas perguntas têm o mesmo milissegundo.
@@ -930,7 +1122,8 @@ continuam válidos mesmo quando o registro muda de lugar no arquivo.
 | `StateCreateAccount` | cadastro de usuário; um email já cadastrado devolve a própria tela, para o usuário informar outro |
 | `StateLogin` | login, mensagem de erro com as opções de tentar novamente, recuperar senha ou retornar, e a recuperação pela pergunta secreta em até três tentativas |
 | `StateMain` | menu do usuário logado: Minha Área e Buscar perguntas |
-| `StateSearchQuestions` | menu da busca: perguntas mais recentes e busca por palavras-chave (em construção) |
+| `StateSearchQuestions` | menu da busca: perguntas mais recentes e busca por palavras-chave |
+| `StateByKeyWordQuestions` (TP3) | busca por palavras-chave: lê os termos, mostra o resultado de 10 em 10 com A e B para trocar de página, abre a pergunta pelo número e, no "Retornar" da pergunta, volta para a mesma página do resultado sem refazer a busca |
 | `StateRecentQuestions` | listagem paginada das perguntas mais recentes; guarda a página atual, navega com A e B e abre a pergunta pelo número |
 | `StateQuestion` | a pergunta completa com as respostas ativas em ordem de nota; abre a resposta pelo número e leva a Responder; é usada pela busca e por Minhas perguntas |
 | `StateResponse` | mostra a pergunta de novo, lê o texto da resposta e grava |
@@ -942,15 +1135,79 @@ continuam válidos mesmo quando o registro muda de lugar no arquivo.
 | `StateMyRatings` | Minhas avaliações: lista as avaliações do usuário, com o voto e o início da resposta |
 | `StateShowRating` | uma avaliação: mostra a pergunta, a resposta e o voto, com a opção de cancelar |
 | `SingletonPWD` | `push(String)`, `pop()`, `getPwd()` e `ultimaPagina(String)`: o caminho de navegação |
-| `Layouts` e `Color` | o desenho dos menus e as cores do terminal |
+| `Layouts` e `Color` | o desenho dos menus e as cores do terminal; no TP3, o `Layouts` ganhou a caixa `SearchByKeyword` da busca |
 
 ### Classes do professor usadas sem alteração de lógica
 
 - **`Arquivo<T>`:** o CRUD genérico com lápide, índice direto e reaproveitamento de espaço. Os métodos são `create`, `read`, `readAll`, `update`, `delete`, `insertFreeSlot`, `findFreeSlot`, `reorganizar` e `close`.
 - **`HashExtensivel<T>`**, com a interface `RegistroHashExtensivel<T>` e o par `ParIDEndereco`.
-- **`ArvoreBMais<T>`**, com a interface `InterfaceArvoreBMais<T>` e o par `ParIdId`.
+- **`ListaInvertida`** (TP3), com o par **`ElementoLista`** (id; frequência). Os métodos usados são `incrementaEntidades`, `decrementaEntidades`, `numeroEntidades`, `create`, `read(termo)`, `read(termo, id)`, `update` e `delete`. O `print()` foi usado nos testes, para conferir as listas.
+
+### Classe do professor com uma correção
+
+- **`ArvoreBMais<T>`**, com a interface `InterfaceArvoreBMais<T>` e o par `ParIdId`. No TP3, o
+  `delete` foi corrigido: a rotação com o irmão esquerdo deixava uma página interna inválida, o que
+  derrubava o arquivamento e a exclusão de perguntas quando a árvore tinha mais de dois níveis. O
+  item 8 de [Do TP3](#do-tp3) descreve o defeito e o teste.
 
 ## Operações especiais
+
+### Do TP3
+
+1. **Índice invertido com a `ListaInvertida`.** O `ArquivoPergunta` abre uma `ListaInvertida` com
+   blocos de 30 pares, gravada em `DictionaryQuestions.db` e `InvertedQuestions.db`. O cabeçalho do
+   dicionário guarda o número de perguntas indexadas, que é o N do IDF: cada inclusão chama
+   `incrementaEntidades()` e cada exclusão chama `decrementaEntidades()`. O tamanho de cada lista é
+   o número de perguntas que têm o termo. As listas guardam só o TF; o IDF é calculado na hora da
+   busca, com esses dois números.
+2. **Vetor de termos.** O `extrairTermos` faz o tratamento do enunciado: tira os acentos (forma NFD,
+   sem as marcas), passa para minúsculas e descarta as stop words. Ele separa o texto em tudo que não
+   é letra, número, `+` ou `#`. Assim o `;` entre as palavras-chave e o espaço dentro delas separam
+   termos: `banco de dados;sql` vira `[banco, dados, sql]`, e cada termo vale 1/3. O `+` e o `#`
+   ficam porque neste sistema de perguntas eles fazem parte de termos como `c++`, `c#` e `b+`. A
+   consulta passa pelo mesmo método, então "Árvore" encontra a palavra-chave "arvore" e "banco de
+   dados" encontra a pergunta acima.
+3. **Stop words do domínio.** A lista tem artigos, preposições e suas contrações, conjunções,
+   pronomes, numerais por extenso e alguns verbos auxiliares, todos sem acento porque são
+   comparados depois da normalização. Para o domínio de perguntas e respostas, entraram também
+   "duvida", "ajuda", "pergunta" e "alguem", que aparecem em qualquer pergunta e não dizem o
+   assunto dela.
+4. **Termo repetido soma a frequência.** O `createRefInvert` segue o esquema do enunciado: para cada
+   termo, `read(termo, id)` procura o par da pergunta; se não existe, `create` grava (id; 1/n); se
+   existe, `update` grava a frequência somada. Na pergunta 3 das capturas, "inteligencia" aparece duas
+   vezes em cinco termos e fica com 0,2 + 0,2 = 0,4.
+5. **Busca ordenada por TF×IDF.** O `readPerguntasByWords` monta os termos da consulta (termo repetido
+   conta uma vez), lê a lista de cada um e calcula `IDF = log10(N / tamanho da lista)`. Cada par
+   (id; TF) da lista soma `TF × IDF` ao valor daquela pergunta, num `HashMap<Integer, Double>`. No
+   fim, os IDs são ordenados pelo valor, do maior para o menor, e cada pergunta é lida pelo índice
+   direto. As perguntas arquivadas são lidas mas não entram no resultado. A tela mostra de 10 em
+   10, como pede o enunciado. Perguntas com o mesmo valor não têm ordem definida entre si.
+6. **O índice acompanha inclusão, alteração e exclusão.** Na inclusão, a pergunta entra no índice e N
+   aumenta. Na alteração, o `Controller` troca as palavras-chave no próprio objeto antes de chamar o
+   `update`, então as palavras antigas só existem no registro gravado. Por isso o `update` lê a
+   versão gravada antes de regravar, tira o ID das listas dos termos antigos e indexa os novos. N não
+   muda, porque a pergunta continua no arquivo. Na exclusão, que acontece quando o usuário apaga a
+   conta, a pergunta sai das listas e N diminui. A `ListaInvertida` do professor não apaga o termo do
+   dicionário quando a lista fica vazia; a busca ignora lista vazia. A pergunta arquivada continua no
+   índice e em N, como continua no arquivo, e é filtrada na hora de montar o resultado.
+7. **Reconstrução do índice.** Se o arquivo de perguntas já tem registros quando o índice invertido
+   ainda está vazio, como acontece ao abrir os dados do TP2, o construtor do `ArquivoPergunta` indexa
+   todas as perguntas uma vez. No teste, os dois arquivos do índice foram apagados com 16 perguntas
+   gravadas: na abertura seguinte, N voltou a 16 e as buscas trouxeram o mesmo resultado de antes.
+8. **Correção na `ArvoreBMais`.** Arquivar uma pergunta com 16 perguntas cadastradas mostrava
+   "Index 3 out of bounds for length 3". O erro vinha do `delete` da árvore do professor, chamado
+   para tirar a pergunta da árvore por data. Quando uma página interna fica com poucos elementos e
+   pega emprestado do irmão esquerdo, o código descia o elemento do pai para a página, mas o irmão
+   perdia só o último ponteiro, sem perder o último elemento. A página do irmão ficava com tantos
+   ponteiros quanto elementos, e a gravação dela estourava no meio do `delete`, com parte das páginas
+   já regravada. Agora o último elemento do irmão sobe para o pai, como numa rotação de Árvore B+.
+   Um teste de estresse inseriu de 5 a 154 pares em 300 árvores de ordem 5 e apagou todos em ordem
+   aleatória, conferindo depois de cada exclusão o conteúdo e a ordem da árvore. Com o código original,
+   264 das 300 rodadas falharam; com a correção, nenhuma.
+9. **Tela de busca.** A `StateByKeyWordQuestions` guarda o resultado da última busca, então voltar de
+   uma pergunta reabre a mesma página sem refazer o cálculo. O número digitado só abre uma pergunta da
+   página atual, A na primeira página e B na última mantêm a página, o rodapé mostra "Página X de Y",
+   e uma busca sem resultado mostra "Nenhuma pergunta encontrada para esses termos.".
 
 ### Do TP2
 
@@ -1074,7 +1331,9 @@ continuam válidos mesmo quando o registro muda de lugar no arquivo.
 | `StateView.getTheSameScan` (TP1) | apontou que o `new Scanner(System.in)` decodifica a entrada como UTF-8 enquanto o console do Windows envia cp850, e escreveu a leitura da propriedade `stdin.encoding` | reproduziu o defeito, em que um acento digitado virava `?` dentro do arquivo, aplicou a correção e testou com nome, pergunta e resposta secreta acentuados |
 | Revisão e depuração (TP1) | leu o código procurando defeitos, reproduziu cada um em execução e sugeriu as correções pontuais | decidiu o que aceitar, aplicou as alterações e repetiu os testes |
 | Roteiro do TP2 | leu o enunciado e o código que o grupo já tinha (as entidades `Resposta` e `Avaliacao` e os arquivos com as duas árvores cada), apontou o que faltava e os defeitos, propôs a árvore por data com o `ParDataId` e o `read(null)`, a navegação com `Supplier`; depois, executou o roteiro de testes no código do grupo, com entrada simulada | aplicou o roteiro passo a passo, decidiu reaproveitar as funções de contagem que já existiam no `ArquivoResposta` em vez de trocá-las por uma nova, escreveu e revisou o código e repetiu os testes |
-| Este relatório | atualizou o texto a partir do código e copiou as capturas do TP2 de uma execução real do programa | revisou o conteúdo e conferiu cada afirmação contra o programa |
+| Ordenação do resultado da busca (TP3) | sugeriu ordenar os IDs pelo valor TF×IDF com `ids.sort(...)`, trecho marcado no código com o comentário "IA UTILIZADA NESTE TRECHO" | integrou a `ListaInvertida`, escreveu o cálculo do TF e do TF×IDF e a tela de busca |
+| Revisão e depuração (TP3) | executou o programa com entrada simulada e apontou os defeitos listados abaixo; escreveu as correções e o teste de estresse da `ArvoreBMais` | revisou as correções e repetiu os testes descritos no checklist |
+| Este relatório | atualizou o texto a partir do código e copiou as capturas de uma execução real do programa | revisou o conteúdo e conferiu cada afirmação contra o programa |
 
 Os defeitos encontrados na revisão do TP1 foram a resposta secreta que não era normalizada antes do
 hash, o login inválido sem mensagem de erro, o cadastro que voltava ao menu quando o email já
@@ -1087,107 +1346,74 @@ data de criação; a exclusão da conta deixava respostas e avaliações órfãs
 voltava para Minha Área por causa de dois `changeState` seguidos; e o `contains` do caminho de
 navegação dava falso positivo com os nomes das telas novas.
 
+Na revisão do TP3, os defeitos encontrados no código da busca foram: o `update` tirava do índice as
+palavras-chave novas em vez das antigas, então a busca por uma palavra removida continuava
+encontrando a pergunta; a remoção não normalizava os termos, então uma palavra-chave com acento ou
+maiúscula nunca saía das listas; as palavras-chave eram indexadas inteiras ("banco de dados") e a
+consulta separada por espaço, então uma palavra-chave com mais de uma palavra nunca era encontrada,
+e não havia stop words; na tela de busca, o décimo item de cada página não abria, o rodapé mostrava
+"Página 1 de 10" para dez resultados e apertar B na última página descartava o resultado; as
+perguntas gravadas antes do TP3 não entravam no índice. O
+teste de arquivamento revelou ainda o defeito da `ArvoreBMais` descrito no item 8 de
+[Do TP3](#do-tp3).
+
 A modelagem das entidades, a estrutura de arquivos, o relacionamento 1:N do TP1, o índice indireto
 por email, as entidades `Resposta` e `Avaliacao` com as respectivas árvores e a divisão do código em
-MVC com o padrão State foram feitos pelo grupo. Todo trecho sugerido por IA foi lido, digitado e
-integrado pelo grupo e testado com o roteiro descrito no checklist.
+MVC com o padrão State foram feitos pelo grupo. No TP3, a integração da `ListaInvertida` ao
+`ArquivoPergunta`, o cálculo do TF e do TF×IDF e a tela `StateByKeyWordQuestions` foram feitos pelo
+grupo. Os trechos sugeridos por IA foram lidos e integrados pelo grupo e testados com o roteiro
+descrito no checklist.
 
 ## Checklist
 
-**1. Há uma listagem paginada de perguntas, que mostra as perguntas em ordem decrescente de data a
-partir de uma Árvore B+ acrescentada ao CRUD de Perguntas?**
+**1. O índice invertido com palavras-chave foi criado usando a classe ListaInvertida?**
 
-**Sim.** O `ArquivoPergunta` ganhou a árvore `indiceData`, de pares (criação; idPergunta), com o
-`compareTo` invertido para a ordem ser decrescente. A tela "Perguntas mais recentes" mostra cinco
-perguntas por página, com as opções de página anterior e próxima. Testado com oito perguntas de dois
-usuários: a primeira página trouxe as cinco mais novas, a segunda as três restantes, e a opção
-"Próxima" na última página não avançou. Também foi testado que a pergunta
-arquivada sai da listagem e que o índice é reconstruído a partir das perguntas existentes quando o
-arquivo da árvore não existe.
+**Sim.** O `ArquivoPergunta` usa a `ListaInvertida` do professor, com o par `ElementoLista`
+(idPergunta; TF), gravada em `dados/perguntas/DictionaryQuestions.db` e `InvertedQuestions.db`.
+Cada pergunta incluída chama `incrementaEntidades()` e grava os termos das palavras-chave com
+`create`, ou com `read` e `update` quando o termo se repete. Com as quatro perguntas das capturas,
+as listas gravadas ficaram iguais às do exemplo do enunciado, inclusive o par (3; 0,4) de
+"inteligencia". A alteração das palavras-chave e a exclusão de uma conta também atualizam o índice,
+como mostra a seção [Busca por palavras-chave (TP3)](#busca-por-palavras-chave-tp3).
 
-**2. Há uma listagem das respostas a uma pergunta selecionada, em ordem decrescente de nota?**
+**2. É possível buscar perguntas por palavras-chave no menu de buscar perguntas?**
 
-**Sim.** Ao abrir uma pergunta, as respostas ativas aparecem ordenadas por nota. No teste, uma
-resposta com nota 0 apareceu acima de uma mais antiga com nota -1. A tela relê as respostas a cada
-abertura, então a ordem acompanha as avaliações feitas.
+**Sim.** Em Buscar perguntas, a opção "[1] Busca por palavras-chave" pede os termos, separados por
+espaço. Acentos, maiúsculas e stop words da consulta são ignorados. O resultado aparece de 10 em 10,
+com A e B para trocar de página, e cada pergunta abre pelo número, com as respostas. Testado com
+uma e com duas palavras, com acento ("Índice", "Inteligência Artificial", "injeção dependências"),
+com stop word no meio ("banco de dados"), com 12 resultados (as duas páginas e a abertura do item
+12) e com uma busca sem resultado.
 
-**3. O usuário pode responder a uma pergunta?**
+**3. As perguntas retornadas estão corretamente classificadas pelo modelo TFxIDF?**
 
-**Sim.** Pela opção "Responder à pergunta", na tela da pergunta. O usuário digita só o texto, e o
-sistema preenche a pergunta, o autor, a data, a nota, o total de avaliações e o estado. Resposta
-vazia é recusada, e pergunta arquivada não oferece a opção de responder.
+**Sim.** O valor de cada pergunta é a soma de TF × log10(N / tamanho da lista) para cada termo da
+consulta, e o resultado sai em ordem decrescente desse valor. Com os dados do exemplo do enunciado,
+a busca "Inteligência Artificial" devolveu as perguntas na ordem 1, 3, 2, com valores 0,142, 0,110
+e 0,042, e a pergunta 4 ficou de fora, como no enunciado. Com as 100 perguntas do arquivo de teste
+`src/perguntas_100.in`, a busca "desenvolvimento web" trouxe 7 perguntas: primeiro as quatro que têm
+os dois termos (0,631 cada), depois as que têm só "web" com 3 e com 4 termos (0,407 e 0,305) e por
+último a que tem só "desenvolvimento" com 5 termos (0,260). Os valores foram conferidos à mão.
+Perguntas com o mesmo valor não têm ordem definida entre si.
 
-**4. O usuário pode arquivar a própria resposta?**
+**4. O trabalho compila corretamente?**
 
-**Sim.** Na tela da própria resposta, aberta pela pergunta ou por Minhas respostas, a única opção é
-"Arquivar resposta". A resposta arquivada sai da tela da pergunta e aparece com a marca
-`[ARQUIVADA]` em Minhas respostas.
+**Sim.** Compila sem erros com o JDK 25.0.1, pelos comandos da seção "Como compilar e executar".
 
-**5. O usuário pode avaliar uma resposta?**
+**5. O trabalho está completo e funcionando sem erros de execução?**
 
-**Sim.** Na resposta de outro usuário, as opções "Concordar" e "Discordar" ajustam a nota em +1 ou
--1 e somam 1 ao total de avaliações da resposta. O sistema não deixa avaliar a própria resposta nem
-avaliar a mesma resposta duas vezes; a segunda tentativa mostra "Você já avaliou esta resposta".
+**Sim.** As duas tarefas do TP3 estão implementadas: o índice invertido das palavras-chave e a busca
+ordenada por TF×IDF. O roteiro de teste, com entrada simulada, passou por: inclusão de 16 perguntas
+e, numa segunda base, das 100 perguntas de `src/perguntas_100.in`; buscas com uma e com duas
+palavras, com acento e com stop word; busca antes e depois da alteração das palavras-chave, em que a
+palavra removida deixou de encontrar a pergunta e as novas passaram a encontrar; arquivamento, em
+que a pergunta saiu do resultado; exclusão de uma conta, em que o número de perguntas do índice caiu
+de 4 para 2 e os IDs saíram de todas as listas; reconstrução do índice a partir de dados já
+gravados; e paginação com 12 resultados. Nenhum caminho lançou exceção. Os defeitos encontrados
+durante esses testes, inclusive o da `ArvoreBMais`, foram corrigidos antes da entrega e estão
+listados em [Onde e como usamos IA](#onde-e-como-usamos-ia).
 
-**6. Na área do usuário, o usuário pode visualizar as respostas às suas perguntas?**
-
-**Sim.** Em Minhas perguntas, a opção "Visualizar pergunta e respostas" abre a pergunta escolhida
-com as respostas ativas, em ordem de nota, e cada resposta pode ser aberta pelo número.
-
-**7. Na área do usuário, o usuário pode arquivar uma resposta de outro usuário a uma das suas
-perguntas?**
-
-**Sim.** Ao abrir a resposta de outro usuário numa pergunta própria, aparece a opção "[C] Arquivar
-resposta (você é o autor da pergunta)". Testado: a resposta saiu da tela da pergunta logo depois.
-
-**8. Na área do usuário, o usuário pode visualizar e arquivar as respostas que escreveu?**
-
-**Sim.** Minhas respostas lista todas as respostas do usuário, com a pergunta e o início do texto.
-Ao escolher uma, a tela mostra a pergunta e a resposta completas, com a opção de arquivar.
-
-**9. Na área do usuário, o usuário pode visualizar e arquivar a avaliação que realizou em uma
-resposta?**
-
-**Sim.** Minhas avaliações lista as avaliações do usuário. Ao escolher uma, a tela mostra a
-pergunta, a resposta e o voto (positivo ou negativo), com a opção de cancelar a avaliação. O
-cancelamento apaga a avaliação e ajusta a resposta: no teste, uma resposta passou de nota 2 com 2
-avaliações para nota 1 com 1 avaliação. Também foi testado o cancelamento numa resposta que tinha
-sido arquivada depois do voto, e a nota voltou ao valor correto.
-
-**10. A integridade do relacionamento entre perguntas e respostas está mantida em todas as
-operações?**
-
-**Sim.** A resposta só é criada para uma pergunta que existe e está ativa, sempre com o ID do usuário
-logado, e nenhuma operação altera depois o `idPergunta` nem o `idUsuario` dela. Cada resposta criada
-ou apagada entra ou sai das duas árvores. Na exclusão de uma conta, as perguntas do usuário saem
-depois de todas as respostas que receberam, inclusive as arquivadas, e as respostas que ele escreveu
-em perguntas de outras pessoas também são apagadas. Testado com a exclusão de dois usuários: as
-perguntas e respostas deles sumiram de todas as telas, e nenhuma tela encontrou resposta sem
-pergunta.
-
-**11. A integridade do relacionamento entre respostas e avaliações está mantida em todas as
-operações?**
-
-**Sim.** A nota e o total de avaliações ficam na resposta e mudam junto com cada avaliação criada ou
-cancelada. Cada usuário avalia uma resposta uma vez só. Apagar uma resposta apaga antes as
-avaliações que ela recebeu, e apagar uma conta desfaz as avaliações que o usuário deu antes de
-apagá-las. Testado: depois da exclusão de um usuário, a avaliação que outra pessoa tinha feito numa
-resposta dele sumiu de Minhas avaliações.
-
-**12. O trabalho compila corretamente?**
-
-**Sim.** Compila sem erros com o JDK 25, pelos comandos da seção "Como compilar e executar".
-
-**13. O trabalho está completo e funcionando sem erros de execução?**
-
-**Sim.** As quatro operações pedidas no TP2 estão implementadas: a listagem paginada por data, as
-respostas, as avaliações e os ajustes na área do usuário. O roteiro de teste usou três usuários e
-passou por paginação, resposta, avaliação, segunda avaliação recusada, ordenação por nota,
-arquivamento pelo autor da resposta e pelo autor da pergunta, cancelamento de avaliação,
-arquivamento de pergunta e exclusão de duas contas em cascata, além de opções inválidas nos menus e
-resposta vazia. Nenhum caminho lançou exceção nem encerrou o programa sem o usuário pedir.
-
-**14. O trabalho é original e não a cópia de um trabalho de outro grupo?**
+**6. O trabalho é original e não a cópia de um trabalho de outro grupo?**
 
 **Sim.** O trabalho foi desenvolvido pelo grupo, sobre o código-base fornecido pelo professor. O uso
-de IA está descrito na seção "Onde e como usamos IA".
+de IA está descrito na seção [Onde e como usamos IA](#onde-e-como-usamos-ia).
