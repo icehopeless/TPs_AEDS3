@@ -38,7 +38,7 @@ terminal. Depois do TP3, o sistema cobre quatro entidades:
 
 ### Apresentação do sistema
 
-- Vídeo do TP3: **[colocar aqui o link do vídeo do TP3]**
+- Vídeo do TP3: https://www.youtube.com/watch?v=TjrVOuUDiCA
 - Vídeo do TP2: https://youtu.be/b5HtPXqXGl8
 - Vídeo do TP1: https://youtu.be/DJMiSdkOcdA
 
